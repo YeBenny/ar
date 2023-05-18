@@ -1,46 +1,100 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { onMounted, ref } from 'vue'
+
+const animations = [
+  'Idle',
+  'Bounce',
+  'Clicked',
+  'Munch',
+  'Roll',
+  'Run',
+  'Spin',
+  'Swim',
+  'Run',
+  'Jump',
+  'Fear',
+  'Death'
+]
+const animation = ref(animations[0])
+var isMarkerVisible = false
+
+onMounted(() => {
+  AFRAME.registerComponent('markerhandler', {
+    init: function () {
+      this.el.sceneEl.addEventListener('markerFound', () => {
+        const model = document.querySelector('#model')
+        model.setAttribute(
+          'animation-mixer',
+          `clip: ${animation.value}; loop: repeat; duration: 1.5;`
+        )
+        isMarkerVisible = true
+      })
+
+      this.el.sceneEl.addEventListener('markerLost', (e) => {
+        isMarkerVisible = false
+      })
+
+      this.el.sceneEl.addEventListener('onefingermove', (event) => {
+        if (isMarkerVisible) {
+          this.el.object3D.rotation.y += event.detail.positionChange.x * rotationFactor
+          this.el.object3D.rotation.x += event.detail.positionChange.y * rotationFactor
+        }
+      })
+
+      this.el.sceneEl.addEventListener('twofingermove', (event) => {
+        if (isMarkerVisible) {
+          this.scaleFactor *= 1 + event.detail.spreadChange / event.detail.startSpread
+
+          this.scaleFactor = Math.min(
+            Math.max(this.scaleFactor, this.data.minScale),
+            this.data.maxScale
+          )
+
+          this.el.object3D.scale.x = scaleFactor * initialScale.x
+          this.el.object3D.scale.y = scaleFactor * initialScale.y
+          this.el.object3D.scale.z = scaleFactor * initialScale.z
+        }
+      })
+
+      this.el.addEventListener('click', () => {
+        animation.value = animations[Math.floor(Math.random() * 12)]
+        const model = document.querySelector('#model')
+        model.setAttribute(
+          'animation-mixer',
+          `clip: ${animation.value}; loop: repeat; duration: 1.5;`
+        )
+      })
+    }
+  })
+})
 </script>
 
 <template>
-  <a-scene embedded arjs>
-    <a-marker preset="hiro">
+  <a-scene
+    vr-mode-ui="enabled: false;"
+    renderer="logarithmicDepthBuffer: true;"
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+    gesture-detector
+  >
+    <a-marker markerhandler emitevents="true" preset="hiro">
       <a-entity
+        id="model"
         position="0 0 0"
-        scale="0.05 0.05 0.05"
-        gltf-model="./gltfs/Fox/Fox.gltf"
-      ></a-entity>
+        rotation="0 90 -90"
+        scale="0.005 0.005 0.005"
+        gltf-model="./gltfs/Scene/scene.gltf"
+        gesture-handler="minScale: 1.0; maxScale: 5.0"
+      >
+      </a-entity>
+      <a-entity position="0 0 0.5" rotation="-90 0 0" scale="0.5 0.5 0.5">
+        <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
+          <a-image class="clickable" src="./images/button.png"></a-image>
+        </a-entity>
+        <a-entity position="0 -1 0">
+          <a-text :value="animation" color="#000"></a-text>
+        </a-entity>
+      </a-entity>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
