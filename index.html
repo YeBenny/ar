@@ -9,9 +9,111 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
     <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+    <script>
+      var isMarkerVisible = false
+      var animations = [
+        'Idle',
+        'Bounce',
+        'Clicked',
+        'Munch',
+        'Roll',
+        'Run',
+        'Spin',
+        'Swim',
+        'Run',
+        'Jump',
+        'Fear',
+        'Death'
+      ]
+      var animation = animations[0]
+      AFRAME.registerComponent('markerhandler', {
+        init: function () {
+          this.el.sceneEl.addEventListener('markerFound', () => {
+            const model = document.querySelector('#model')
+            model.setAttribute(
+              'animation-mixer',
+              `clip: ${animation}; loop: repeat; timeScale: 0.5;`
+            )
+            const text = document.querySelector('#text')
+            text.setAttribute(
+              'value',
+              `${animation}`
+            )
+            isMarkerVisible = true
+          })
+
+          this.el.sceneEl.addEventListener('markerLost', (e) => {
+            isMarkerVisible = false
+          })
+
+          this.el.sceneEl.addEventListener('onefingermove', (event) => {
+            if (isMarkerVisible) {
+              this.el.object3D.rotation.y += event.detail.positionChange.x * rotationFactor
+              this.el.object3D.rotation.x += event.detail.positionChange.y * rotationFactor
+            }
+          })
+
+          this.el.sceneEl.addEventListener('twofingermove', (event) => {
+            if (isMarkerVisible) {
+              this.scaleFactor *= 1 + event.detail.spreadChange / event.detail.startSpread
+
+              this.scaleFactor = Math.min(
+                Math.max(this.scaleFactor, this.data.minScale),
+                this.data.maxScale
+              )
+
+              this.el.object3D.scale.x = scaleFactor * initialScale.x
+              this.el.object3D.scale.y = scaleFactor * initialScale.y
+              this.el.object3D.scale.z = scaleFactor * initialScale.z
+            }
+          })
+
+          this.el.addEventListener('click', () => {
+            animation = animations[Math.floor(Math.random() * 12)]
+            const model = document.querySelector('#model')
+            model.setAttribute(
+              'animation-mixer',
+              `clip: ${animation}; loop: repeat; timeScale: 0.5;`
+            )
+            const text = document.querySelector('#text')
+            text.setAttribute(
+              'value',
+              `${animation}`
+            )
+          })
+        }
+      })
+    </script>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <a-scene
+      embedded
+      vr-mode-ui="enabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
+      arjs="trackingMethod: best; debugUIEnabled: false;"
+      gesture-detector
+    >
+      <a-marker markerhandler emitevents="true" preset="hiro">
+        <a-entity
+          id="model"
+          position="0 0 0"
+          rotation="0 0 0"
+          scale="0.005 0.005 0.005"
+          gltf-model="./gltfs/Scene/scene.gltf"
+          gesture-handler="minScale: 0.5; maxScale: 1.5"
+          animation-mixer="clip: Run; loop: repeat; timeScale: 0.5"
+        >
+        </a-entity>
+        <a-entity position="0 0 1" rotation="-90 0 0" scale="1.0 1.0 1.0">
+          <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
+            <a-image class="clickable" src="./images/button.png"></a-image>
+          </a-entity>
+          <a-entity position="1 0 0">
+            <a-text id="text" color="#000"></a-text>
+          </a-entity>
+        </a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
   </body>
 </html>
