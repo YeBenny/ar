@@ -80,13 +80,13 @@ onMounted(() => {
       <a-entity
         id="model"
         position="0 0 0"
-        rotation="0 90 -90"
-        scale="0.005 0.005 0.005"
+        rotation="0 0 0"
+        scale="0.01 0.01 0.01"
         gltf-model="./gltfs/Scene/scene.gltf"
-        gesture-handler="minScale: 1.0; maxScale: 5.0"
+        gesture-handler="minScale: 0.8; maxScale: 5.0"
       >
       </a-entity>
-      <a-entity position="0 0 0.5" rotation="-90 0 0" scale="0.5 0.5 0.5">
+      <a-entity position="0 0 1.5" rotation="-90 0 0" scale="1.0 1.0 1.0">
         <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
           <a-image class="clickable" src="./images/button.png"></a-image>
         </a-entity>
