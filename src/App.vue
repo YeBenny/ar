@@ -1,5 +1,5 @@
 <template>
-  <iframe src="./ar-1.html" />
+  <iframe src="./ar-1.html" noresize="noresize" />
 </template>
 
 <style scoped>
