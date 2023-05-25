@@ -7,15 +7,16 @@
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.1/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
-  <script src="./js/gestures.js"></script>
+  <script src="../js/gestures.js"></script>
 </head>
 </style>
 
 <body>
   <a-scene mindar-image="imageTargetSrc: ./minds/targets.mind; filterMinCF:.001; filterBeta: 1;" color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false">
+    renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false">
     <a-assets>
-      <a-asset-item id="avatarModel" src="./gltfs/Scene/scene.gltf"></a-asset-item>
+      <a-asset-item id="avatarModel" src="../gltfs/Cat/scene.gltf"></a-asset-item>
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>

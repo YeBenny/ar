@@ -12,7 +12,7 @@ const { title } = router.currentRoute.value.query
       <v-app-bar-title>{{ title }}</v-app-bar-title>
     </v-app-bar>
     <v-main>
-      <iframe src="./ar-image-tracking-mindar.html" noresize="noresize" />
+      <iframe src="./htmls/ar-image-tracking-mindar.html" noresize="noresize" />
     </v-main>
   </v-layout>
 </template>
@@ -20,7 +20,7 @@ const { title } = router.currentRoute.value.query
 <style scoped>
 iframe {
   position: absolute;
-  top: 0;
+  top: 48px;
   left: 0;
   bottom: 0;
   right: 0;
