@@ -4,6 +4,7 @@ import MarkerBasedARJSView from '../views/MarkerBasedARJSView.vue'
 import ImageTrackingARJSView from '../views/ImageTrackingARJSView.vue'
 import ImageTrackingMindARView from '../views/ImageTrackingMindARView.vue'
 import ImageTrackingInteractMindARView from '../views/ImageTrackingInteractMindARView.vue'
+import FaceTrackingMindARView from '../views/FaceTrackingMindARView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -37,6 +38,12 @@ const router = createRouter({
       name: 'image-tracking-interact-mindar',
       component: ImageTrackingInteractMindARView,
       meta: { title: 'ImageTrackingInteractMindARView' }
+    },
+    {
+      path: '/face-tracking-mindar',
+      name: 'face-tracking-mindar',
+      component: FaceTrackingMindARView,
+      meta: { title: 'FaceTrackingMindARView' }
     }
   ]
 })

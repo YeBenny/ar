@@ -18,6 +18,10 @@ const pages = ref([
   {
     title: 'ImageTrackingInteract(MindAR)',
     path: '/image-tracking-interact-mindar'
+  },
+  {
+    title: 'FaceTracking(MindAR)',
+    path: '/face-tracking-mindar'
   }
 ])
 
