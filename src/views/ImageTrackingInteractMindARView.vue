@@ -1,7 +1,7 @@
 <script setup>
 import router from '@/router'
 
-const { title } = router.currentRoute.value.query
+const { title, location } = router.currentRoute.value.query
 </script>
 <template>
   <v-layout>
@@ -11,8 +11,8 @@ const { title } = router.currentRoute.value.query
       </template>
       <v-app-bar-title>{{ title }}</v-app-bar-title>
     </v-app-bar>
-    <v-main>
-      <iframe src="./htmls/ar-image-tracking-mindar-interact.html" noresize="noresize" />
+    <v-main fill-height>
+      <iframe :src="`./htmls/ar-image-tracking-mindar-interact.html?location=${location}`" noresize="noresize" />
     </v-main>
   </v-layout>
 </template>
@@ -25,6 +25,6 @@ iframe {
   bottom: 0;
   right: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 48px);
 }
 </style>
