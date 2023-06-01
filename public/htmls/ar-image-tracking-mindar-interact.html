@@ -188,7 +188,8 @@
     <div id="geolocation"></div>
   </div>
   <a-scene id="interactive-scene" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;"
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" visible="false" gesture-detector>
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+    device-orientation-permission-ui="enabled: false" visible="false" gesture-detector>
     <a-entity interactive-handler camera emitevents="true">
     </a-entity>
     <a-entity position="0 -1 -5">
