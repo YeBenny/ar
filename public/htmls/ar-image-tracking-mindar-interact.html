@@ -164,9 +164,17 @@
 
 <style>
   .container {
+    padding: 16px;
+    background: rgba(225, 225, 225, .5);
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  #title {
+    font-size: large;
+    font-weight: bold;
+    line-height: 150%;
   }
 
   #interactive-scene {
@@ -176,8 +184,8 @@
 
 <body>
   <div class="container">
-    <h3 id="title"></h3>
-    <span id="geolocation"></span>
+    <div id="title"></div>
+    <div id="geolocation"></div>
   </div>
   <a-scene id="interactive-scene" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;"
     arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" visible="false" gesture-detector>
