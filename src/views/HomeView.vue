@@ -4,24 +4,14 @@ import router from '@/router'
 
 const pages = ref([
   {
-    title: 'MarkerBased(AR.js)',
-    path: '/marker-based-arjs'
-  },
-  {
-    title: 'ImageTracking(AR.js)',
-    path: '/image-tracking-arjs'
-  },
-  {
-    title: 'ImageTracking(MindAR)',
-    path: '/image-tracking-mindar'
-  },
-  {
-    title: 'ImageTrackingInteract(MindAR)',
+    title: 'ShenZhen',
+    location: 'sz',
     path: '/image-tracking-interact-mindar'
   },
   {
-    title: 'FaceTracking(MindAR)',
-    path: '/face-tracking-mindar'
+    title: 'HongKong',
+    location: 'hk',
+    path: '/image-tracking-interact-mindar'
   }
 ])
 
@@ -29,7 +19,8 @@ function onClickPage(page) {
   router.push({
     path: page.path,
     query: {
-      title: page.title
+      title: page.title,
+      location: page.location
     }
   })
 }
@@ -39,15 +30,17 @@ function onClickPage(page) {
   <v-layout>
     <v-app-bar color="primary" title="AR Demo" density="compact" fixed> </v-app-bar>
     <v-main>
-      <v-row>
-        <template v-for="(page, index) in pages" :key="index">
-          <v-col cols="12">
-            <v-card :value="page" @click="onClickPage(page)">
-              <v-card-title class="text-black">{{ page.title }}</v-card-title>
-            </v-card>
-          </v-col>
-        </template>
-      </v-row>
+      <v-container>
+        <v-row>
+          <template v-for="(page, index) in pages" :key="index">
+            <v-col cols="12">
+              <v-card :value="page" @click="onClickPage(page)">
+                <v-card-title class="text-black">{{ page.title }}</v-card-title>
+              </v-card>
+            </v-col>
+          </template>
+        </v-row>
+      </v-container>
     </v-main>
   </v-layout>
 </template>
