@@ -9,7 +9,32 @@
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
   <script src="../js/gestures.js"></script>
   <script>
-    var animations = [
+    window.onload = (event) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const geolocation = document.querySelector('#geolocation')
+          geolocation.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude
+        })
+      }
+      const queryString = window.location.search
+      const params = new URLSearchParams(queryString)
+      const location = params.get('location')
+      const title = document.querySelector('#title')
+      if (location === 'sz') {
+        const title = document.querySelector('#title')
+        title.textContent = "Welcome to ShenZhen"
+      }
+      if (location === 'hk') {
+        const title = document.querySelector('#title')
+        title.textContent = "Welcome to HongKong"
+      }
+    }
+
+    var animationsDuck = [
+      'Idle',
+      'Walk'
+    ]
+    var animationsCat = [
       'Idle',
       'Bounce',
       'Clicked',
@@ -23,18 +48,38 @@
       'Fear',
       'Death'
     ]
-    var animation = animations[0]
-    var visiable = false
+    var animation
+    var model
+    var visible = false
     var targetFound = false
+
+    const randomAnimation = (animations, animation) => {
+      const size = animations.length
+      let index = Math.floor(Math.random() * size)
+      while (animations[index] === animation) {
+        index = Math.floor(Math.random() * size)
+      }
+      return animations[index]
+    }
 
     AFRAME.registerComponent('interactive-handler', {
       init: function () {
-        const model = document.querySelector('#model')
+        const queryString = window.location.search
+        const params = new URLSearchParams(queryString)
+        const location = params.get('location')
+        if (location === 'sz') {
+          animation = randomAnimation(animationsDuck, animation)
+          model = document.querySelector('#model-duck')
+        }
+        if (location === 'hk') {
+          animation = randomAnimation(animationsCat, animation)
+          model = document.querySelector('#model-cat')
+        }
+        model.setAttribute("visible", true)
         model.setAttribute(
           'animation-mixer',
           `clip: ${animation}; loop: repeat; timeScale: 0.5;`
         )
-
         const text = document.querySelector('#text')
         text.setAttribute('value', `${animation}`)
       }
@@ -45,15 +90,24 @@
         this.el.addEventListener("targetFound", event => {
           targetFound = true
 
-          visiable = true
+          visible = true
           const interactiveScene = document.querySelector('#interactive-scene')
           interactiveScene.setAttribute('visible', true)
 
-          const pushBtn = document.querySelector('#push-btn')
-          pushBtn.classList.add('clickable')
-          pushBtn.addEventListener('click', () => {
-            animation = animations[Math.floor(Math.random() * 12)]
-            const model = document.querySelector('#model')
+          const interactBtn = document.querySelector('#interact-btn')
+          interactBtn.classList.add('clickable')
+          interactBtn.addEventListener('click', () => {
+            const queryString = window.location.search
+            const params = new URLSearchParams(queryString)
+            const location = params.get('location')
+            if (location === 'sz') {
+              animation = randomAnimation(animationsDuck, animation)
+              model = document.querySelector('#model-duck')
+            }
+            if (location === 'hk') {
+              animation = randomAnimation(animationsCat, animation)
+              model = document.querySelector('#model-cat')
+            }
             model.setAttribute(
               'animation-mixer',
               `clip: ${animation}; loop: repeat; timeScale: 0.5;`
@@ -65,12 +119,12 @@
           const closeBtn = document.querySelector('#close-btn')
           closeBtn.classList.add('clickable')
           closeBtn.addEventListener('click', () => {
-            visiable = false
+            visible = false
             const interactiveScene = document.querySelector('#interactive-scene')
             interactiveScene.setAttribute('visible', false)
 
-            const pushBtn = document.querySelector('#push-btn')
-            pushBtn.classList.remove('clickable')
+            const interactBtn = document.querySelector('#interact-btn')
+            interactBtn.classList.remove('clickable')
 
             const closeBtn = document.querySelector('#close-btn')
             closeBtn.classList.remove('clickable')
@@ -80,12 +134,12 @@
 
             if (targetFound) {
               setTimeout(() => {
-                visiable = true
+                visible = true
                 const interactiveScene = document.querySelector('#interactive-scene')
                 interactiveScene.setAttribute('visible', true)
 
-                const pushBtn = document.querySelector('#push-btn')
-                pushBtn.classList.add('clickable')
+                const interactBtn = document.querySelector('#interact-btn')
+                interactBtn.classList.add('clickable')
 
                 const closeBtn = document.querySelector('#close-btn')
                 closeBtn.classList.add('clickable')
@@ -96,7 +150,7 @@
 
         this.el.addEventListener("targetLost", event => {
           targetFound = false
-          if (visiable) {
+          if (visible) {
             setTimeout(() => {
               const uiScanning = document.querySelector('.mindar-ui-scanning')
               uiScanning.classList.add('hidden')
@@ -109,46 +163,60 @@
 </head>
 
 <style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   #interactive-scene {
     z-index: 9999;
   }
 </style>
 
 <body>
+  <div class="container">
+    <h3 id="title"></h3>
+    <span id="geolocation"></span>
+  </div>
   <a-scene id="interactive-scene" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;"
     arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" visible="false" gesture-detector>
     <a-entity interactive-handler camera emitevents="true">
-      <a-entity position="0 -1 -5">
-        <a-entity id="model" rotation="0 0 0" scale="0.01 0.01 0.01" gltf-model="../gltfs/Cat/scene.gltf"
-          gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5"
-          animation-mixer="clip: Run; loop: repeat; timeScale: 0.5">
+    </a-entity>
+    <a-entity position="0 -1 -5">
+      <a-entity id="model-duck" rotation="0 0 0" scale="1 1 1" gltf-model="../gltfs/Duck/scene.gltf"
+        gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5"
+        animation-mixer="clip: idle; loop: repeat; timeScale: 0.5" visible="false">
+      </a-entity>
+      <a-entity id="model-cat" rotation="0 0 0" scale="0.01 0.01 0.01" gltf-model="../gltfs/Cat/scene.gltf"
+        gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5"
+        animation-mixer="clip: idle; loop: repeat; timeScale: 0.5" visible="false">
+      </a-entity>
+      <a-entity position="0 -1 0" rotation="0 0 0" scale="1 1 1">
+        <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
+          <a-image id="interact-btn" class="clickable" width="1.20" height="0.47"
+            src="../images/interact.png"></a-image>
         </a-entity>
-        <a-entity position="0 -1 0" rotation="0 0 0" scale="1 1 1">
-          <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
-            <a-image id="push-btn" class="clickable" src="../images/push.png"></a-image>
-          </a-entity>
-          <a-entity position="1 0 0">
-            <a-text id="text" color="#000" negate="false"></a-text>
-          </a-entity>
+        <a-entity position="0 -0.75 0" cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
+          <a-image id="collect-btn" class="clickable" width="1.15" height="0.47" src="../images/collect.png"></a-image>
         </a-entity>
-        <a-entity position="2 2 0" rotation="0 0 0" scale="0.5 0.5 0.5" cursor="rayOrigin: mouse"
-          raycaster="objects: .clickable;">
-          <a-image id="close-btn" class="clickable" src="../images/close.png"></a-image>
+        <a-entity position="1 0 0">
+          <a-text id="text" color="#000" negate="false"></a-text>
+        </a-entity>
+      </a-entity>
+      <a-entity position="1.5 2.5 0" rotation="0 0 0" scale="1 1 1">
+        <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
+          <a-image id="close-btn" class="clickable" width="0.5" height="0.5" src="../images/close.png"></a-image>
         </a-entity>
       </a-entity>
     </a-entity>
+    </a-entity>
   </a-scene>
   <a-scene mindar-image="imageTargetSrc: ../minds/targets.mind; filterMinCF:.001; filterBeta: 1;" color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-    <a-assets>
-      <a-asset-item id="avatarModel" src="../gltfs/Cat/scene.gltf"></a-asset-item>
-    </a-assets>
-
+    renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false">
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
     <a-entity target-handler mindar-image-target="targetIndex: 0">
-      <a-gltf-model rotation="0 0 0 " position="0 0 0" scale="0.005 0.005 0.005" src="#avatarModel"
-        animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-        visible="false">
     </a-entity>
   </a-scene>
 </body>
