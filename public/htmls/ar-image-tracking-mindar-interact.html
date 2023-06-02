@@ -116,6 +116,38 @@
             text.setAttribute('value', `${animation}`)
           })
 
+          const collectBtn = document.querySelector('#collect-btn')
+          collectBtn.classList.add('clickable')
+          collectBtn.addEventListener('click', () => {
+      window.parent.postMessage({ action: "collect" }, "*");
+            visible = false
+            const interactiveScene = document.querySelector('#interactive-scene')
+            interactiveScene.setAttribute('visible', false)
+
+            const interactBtn = document.querySelector('#interact-btn')
+            interactBtn.classList.remove('clickable')
+
+            const closeBtn = document.querySelector('#close-btn')
+            closeBtn.classList.remove('clickable')
+
+            const uiScanning = document.querySelector('.mindar-ui-scanning')
+            uiScanning.classList.remove('hidden')
+
+            if (targetFound) {
+              setTimeout(() => {
+                visible = true
+                const interactiveScene = document.querySelector('#interactive-scene')
+                interactiveScene.setAttribute('visible', true)
+
+                const interactBtn = document.querySelector('#interact-btn')
+                interactBtn.classList.add('clickable')
+
+                const closeBtn = document.querySelector('#close-btn')
+                closeBtn.classList.add('clickable')
+              }, 500)
+            }
+          })
+
           const closeBtn = document.querySelector('#close-btn')
           closeBtn.classList.add('clickable')
           closeBtn.addEventListener('click', () => {
@@ -203,11 +235,10 @@
       </a-entity>
       <a-entity position="0 -1 0" rotation="0 0 0" scale="1 1 1">
         <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
-          <a-image id="interact-btn" class="clickable" width="1.20" height="0.47"
-            src="../images/interact.png"></a-image>
+          <a-image id="interact-btn" width="1.20" height="0.47" src="../images/interact.png"></a-image>
         </a-entity>
         <a-entity position="0 -0.75 0" cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
-          <a-image id="collect-btn" class="clickable" width="1.15" height="0.47" src="../images/collect.png"></a-image>
+          <a-image id="collect-btn" width="1.15" height="0.47" src="../images/collect.png"></a-image>
         </a-entity>
         <a-entity position="1 0 0">
           <a-text id="text" color="#000" negate="false"></a-text>
@@ -215,7 +246,7 @@
       </a-entity>
       <a-entity position="1.5 2.5 0" rotation="0 0 0" scale="1 1 1">
         <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable;">
-          <a-image id="close-btn" class="clickable" width="0.5" height="0.5" src="../images/close.png"></a-image>
+          <a-image id="close-btn" width="0.5" height="0.5" src="../images/close.png"></a-image>
         </a-entity>
       </a-entity>
     </a-entity>
