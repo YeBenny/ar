@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import MarkerBasedARJSView from '../views/MarkerBasedARJSView.vue'
 import ImageTrackingARJSView from '../views/ImageTrackingARJSView.vue'
 import ImageTrackingMindARView from '../views/ImageTrackingMindARView.vue'
-import ImageTrackingInteractMindARView from '../views/ImageTrackingInteractMindARView.vue'
+import ImageTrackingMindARInteractView from '../views/ImageTrackingMindARInteractView.vue'
 import FaceTrackingMindARView from '../views/FaceTrackingMindARView.vue'
 
 const router = createRouter({
@@ -34,9 +34,9 @@ const router = createRouter({
       meta: { title: 'ImageTrackingMindARView' }
     },
     {
-      path: '/image-tracking-interact-mindar',
-      name: 'image-tracking-interact-mindar',
-      component: ImageTrackingInteractMindARView,
+      path: '/image-tracking-mindar-interact',
+      name: 'image-tracking-mindar-interact',
+      component: ImageTrackingMindARInteractView,
       meta: { title: 'ImageTrackingInteractMindARView' }
     },
     {

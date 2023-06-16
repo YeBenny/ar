@@ -6,12 +6,12 @@ const pages = ref([
   {
     title: 'ShenZhen',
     location: 'sz',
-    path: '/image-tracking-interact-mindar'
+    path: '/image-tracking-mindar-interact'
   },
   {
     title: 'HongKong',
     location: 'hk',
-    path: '/image-tracking-interact-mindar'
+    path: '/image-tracking-mindar-interact'
   }
 ])
 
