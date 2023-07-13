@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useConfigStore } from '../stores/config'
+import { storeToRefs } from 'pinia'
 import HomeView from '../views/HomeView.vue'
 import MarkerBasedARJSView from '../views/MarkerBasedARJSView.vue'
 import ImageTrackingARJSView from '../views/ImageTrackingARJSView.vue'
@@ -50,6 +52,22 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title || to.query.title
+  let store = useConfigStore()
+  let { config } = storeToRefs(store)
+  let { webArBaseUrl, webArAccessToken, appAccessToken, extraHeaderInRequest } =
+    router.currentRoute.value.query
+  if (webArBaseUrl) {
+    config.value.webArBaseUrl = webArBaseUrl
+  }
+  if (webArAccessToken) {
+    config.value.webArAccessToken = webArAccessToken
+  }
+  if (appAccessToken) {
+    config.value.appAccessToken = appAccessToken
+  }
+  if (extraHeaderInRequest) {
+    config.value.extraHeaderInRequest = extraHeaderInRequest
+  }
   next()
 })
 
