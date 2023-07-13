@@ -3,6 +3,7 @@ import { useConfigStore } from '../stores/config'
 import { storeToRefs } from 'pinia'
 import HomeView from '../views/HomeView.vue'
 import MarkerBasedARJSView from '../views/MarkerBasedARJSView.vue'
+import ImageTrackingInteractView from '../views/ImageTrackingInteractView.vue'
 import ImageTrackingARJSView from '../views/ImageTrackingARJSView.vue'
 import ImageTrackingMindARView from '../views/ImageTrackingMindARView.vue'
 import ImageTrackingMindARInteractView from '../views/ImageTrackingMindARInteractView.vue'
@@ -16,6 +17,12 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: { title: 'Home' }
+    },
+    {
+      path: '/image-tracking-interact',
+      name: 'image-tracking-interact',
+      component: ImageTrackingInteractView,
+      meta: { title: 'ImageTrackingInteractView' }
     },
     {
       path: '/marker-based-arjs',
