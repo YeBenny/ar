@@ -184,7 +184,7 @@ const ok = () => {
           </a-entity>
           <a-entity position="1.5 2.5 0" rotation="0 0 0" scale="1 1 1">
             <a-entity cursor="rayOrigin: mouse;" raycaster="objects: .clickable;">
-              <a-image ref="closeBtnRef" width="0.5" height="0.5" src="./images/close.png" @click="close"></a-image>
+              <a-image ref="closeBtnRef" width="0.5" height="0.5" src="./images/btn_close.png" @click="close"></a-image>
             </a-entity>
           </a-entity>
         </a-entity>
