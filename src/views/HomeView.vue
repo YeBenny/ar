@@ -81,7 +81,7 @@ function onClickEvent(event) {
 
 <template>
   <v-layout>
-    <v-app-bar color="primary" title="AR Demo" density="compact" fixed> </v-app-bar>
+    <v-app-bar color="primary" title="AR体验馆" density="compact" fixed> </v-app-bar>
     <v-main>
       <v-container>
         <v-row>

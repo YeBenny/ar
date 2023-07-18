@@ -11,7 +11,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { title: 'Home' }
+      meta: { title: 'AR体验馆' }
     },
     {
       path: '/image-tracking-interact',
