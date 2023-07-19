@@ -17,13 +17,13 @@ const router = createRouter({
       path: '/image-tracking-interact',
       name: 'image-tracking-interact',
       component: ImageTrackingInteractView,
-      meta: { title: 'ImageTrackingInteractView' }
+      meta: { title: 'AR体验馆' }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  window.document.title = to.meta.title || to.query.title
+  window.document.title = to.query.title || to.meta.title
   let store = useConfigStore()
   let { config } = storeToRefs(store)
   let { webArBaseUrl, webArAccessToken, appAccessToken, extraHeaderInRequest } =
