@@ -73,9 +73,10 @@ function onClickEvent(event) {
     path: "/image-tracking-interact",
     query: {
       title: event.title,
-      id: event.id
+      id: event.id,
+      t: Date.now()
     }
-  }).then(() => { router.go() })
+  })
 }
 </script>
 
