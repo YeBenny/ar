@@ -105,6 +105,8 @@ onUnmounted(() => {
   isVisible = false
   arSystem.stop()
   arSystem.ui.hideScanning()
+  delete AFRAME.components['model-handler']
+  delete AFRAME.components['target-handler']
 })
 
 const confirm = async () => {
