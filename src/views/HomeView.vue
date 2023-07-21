@@ -2,8 +2,10 @@
 import { onMounted, ref } from 'vue'
 import router from '@/router'
 import Loading from '../components/Loading.vue'
-import LazyImage from '../components/LazyImage.vue'
+import ItemEvent from '../components/ItemEvent.vue'
 import { getEventList } from '../axios'
+
+const imageURL = `${import.meta.env.VITE_BASE_URL}/wegalaxy/public/images`;
 
 const overlay = ref(true)
 const events = ref([])
@@ -80,26 +82,17 @@ function onClickEvent(event) {
 }
 </script>
 
-<template>
-  <v-layout>
-    <v-app-bar color="primary" title="AR体验馆" density="compact" fixed> </v-app-bar>
+<template >
+  <v-layout class="h-100" :style="{
+    backgroundImage: `url(${imageURL}/bg_image.png)`,
+    backgroundSize: '100% 100%'
+  }">
     <v-main>
       <v-container>
         <v-row>
           <template v-for="(event, index) in events" :key="index">
             <v-col cols="12">
-              <v-card @click="onClickEvent(event)">
-                <LazyImage v-if="event.image" :src="event.image" />
-                <v-card-title>
-                  {{ event.title }}
-                </v-card-title>
-                <v-card-subtitle>
-                  {{ event.description }}
-                </v-card-subtitle>
-                <v-card-text>
-                  {{ $d(event.startUnixTime * 1000, 'short') }} - {{ $d(event.endUnixTime * 1000, 'short') }}
-                </v-card-text>
-              </v-card>
+              <ItemEvent :event="event" @click="onClickEvent(event)"></ItemEvent>
             </v-col>
           </template>
         </v-row>
