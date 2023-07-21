@@ -29,7 +29,7 @@ const imageURL = `${import.meta.env.VITE_BASE_URL}/wegalaxy/public/images`;
         <v-img class="item-btn v-col-auto" :style="{
           backgroundImage: `url(${imageURL}/btn_bg_round.png)`,
           backgroundSize: '100% 100%'
-        }" :src="`${imageURL}/btn_arrow_enter.png`" />
+        }" :src="`${imageURL}/icon_arrow_right.png`" />
       </div>
     </v-container>
   </v-container>
