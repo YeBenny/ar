@@ -159,6 +159,12 @@ const ok = () => {
 
 <template>
   <v-layout>
+    <v-app-bar style="z-index: 10000" color="primary" density="compact" fixed>
+      <template v-slot:prepend>
+        <v-btn icon="mdi-arrow-left" @click="router.back()"> </v-btn>
+      </template>
+      <v-app-bar-title>{{ title }}</v-app-bar-title>
+    </v-app-bar>
     <v-main class="container">
       <a-scene style="z-index: 9999" ref="sceneInteractRef" vr-mode-ui="enabled: false;"
         renderer="logarithmicDepthBuffer: false;" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
