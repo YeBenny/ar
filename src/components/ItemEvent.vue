@@ -14,12 +14,11 @@ const imageURL = `${import.meta.env.VITE_BASE_URL}/wegalaxy/public/images`;
 <template>
   <v-container class="item-container pa-0 d-flex" key={event.eventId}>
     <div class="item-img-container v-col-4 d-flex" :style="{
-      backgroundImage: `url(${imageURL}/bg_image_fill.png)`,
-      backgroundSize: '100% 100%'
+      backgroundColor: 'rgba(255, 255, 255, 0.5)'
     }">
       <LazyImage v-if="event.image" class="item-img" :src="event.image" />
     </div>
-    <v-container class="v-col-7 px-0 py-2 d-flex flex-column justify-space-between">
+    <v-container class="bg-white v-col-8 ma-0 px-3 py-2 d-flex flex-column justify-space-between">
       <div>
         <div class="item-title">{{ event.title }}</div>
         <div class="item-description">{{ event.description }}</div>
@@ -37,7 +36,7 @@ const imageURL = `${import.meta.env.VITE_BASE_URL}/wegalaxy/public/images`;
 
 <style scoped>
 .item-container {
-  background: #ffffff;
+  overflow: hidden;
   border: 1px solid #ffffff;
   border-radius: 20px;
 }

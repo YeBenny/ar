@@ -83,7 +83,8 @@ function onClickEvent(event) {
 </script>
 
 <template >
-  <v-layout class="h-100" :style="{
+  <v-layout class="h-auto" :style="{
+    minHeight: '100%',
     backgroundImage: `url(${imageURL}/bg_image.png)`,
     backgroundSize: '100% 100%'
   }">
