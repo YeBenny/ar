@@ -4,7 +4,7 @@ import router from '@/router'
 import Loading from '../components/Loading.vue'
 import { getEventDetail, getResult } from '../axios'
 
-const { title, id } = router.currentRoute.value.query
+const { id } = router.currentRoute.value.query
 
 const overlay = ref(true)
 const target = ref(null)
@@ -21,6 +21,7 @@ const dialog = ref(false)
 const dialogText = ref(false)
 
 var arSystem
+var isNeedLocation = false
 var isVisible = false
 
 async function getData() {
@@ -28,6 +29,7 @@ async function getData() {
     overlay.value = true
     const event = await getEventDetail(id)
     const templateInstance = JSON.parse(event.templateInstance);
+    isNeedLocation = event.locationRestriction;
     target.value = templateInstance['target']
     popUp.value = templateInstance['pop_up']
     confirmButton = templateInstance['confirm_button']
@@ -41,7 +43,7 @@ async function getData() {
 onMounted(async () => {
   await getData()
 
-  if (navigator.geolocation) {
+  if (isNeedLocation && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
       longitude = position.coords.longitude
       latitude = position.coords.latitude
