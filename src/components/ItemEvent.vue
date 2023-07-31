@@ -16,7 +16,8 @@ const imageURL = `${import.meta.env.VITE_BASE_URL}/wegalaxy/public/images`;
     <div class="item-img-container v-col-4 d-flex" :style="{
       backgroundColor: 'rgba(255, 255, 255, 0.5)'
     }">
-      <LazyImage v-if="event.image" class="item-img" :src="event.image" />
+      <LazyImage v-if="event.image" class="item-img" :src="event.image" bg-color="bg-white" :maxHeight="100"
+        :aspect-ratio="1" />
     </div>
     <v-container class="bg-white v-col-8 ma-0 px-3 py-2 d-flex flex-column justify-space-between">
       <div>
