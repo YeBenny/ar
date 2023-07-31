@@ -21129,18 +21129,16 @@ _startVideo: function() {
       video: {
           facingMode: "environment"
       }
-  }).then(async n => {
+  }).then(async () => {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: !1,
         video: {
             facingMode: "environment"
         }
       });
-      const videoTracks = stream.getVideoTracks()?.[0] ?? null;
-      await this._sleep(1000), videoTracks?.stop?.(), await this._sleep(100),
       this.video.addEventListener("loadedmetadata", () => {
           this.video.setAttribute("width", this.video.videoWidth), this.video.setAttribute("height", this.video.videoHeight), this._startAR()
-      }), this.video.srcObject = n, await this.video.play()
+      }), this.video.srcObject = stream, await this.video.play()
   }).catch(n => {
       console.log("getUserMedia error", n), this.el.emit("arError", {
           error: "VIDEO_FAIL"
