@@ -16,7 +16,8 @@ onMounted(async () => {
     webArBaseUrl,
     webArAccessToken,
     appAccessToken,
-    extraHeaderInRequest
+    extraHeaderInRequest,
+    eventId
   } = router.currentRoute.value.query
   if (webArBaseUrl) {
     config.value.webArBaseUrl = webArBaseUrl
@@ -31,6 +32,15 @@ onMounted(async () => {
     config.value.extraHeaderInRequest = extraHeaderInRequest
   }
   i18n.locale.value = config.value.locale ?? i18n.locale.value
+  if (eventId) {
+    router.replace({
+      path: "/image-tracking-interact",
+      query: {
+        id: eventId,
+        t: Date.now()
+      }
+    })
+  }
   isReady.value = true
 })
 </script>
