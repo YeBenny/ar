@@ -176,10 +176,10 @@ const ok = () => {
           </a-entity>
           <a-entity position="0 -0.5 0" rotation="0 0 0" scale="1 1 1">
             <a-entity position="0 -0.75 0" cursor="rayOrigin: mouse;" raycaster="objects: .clickable;">
-              <a-gui-button v-if="confirmButton" ref="confirmBtnRef" width="1.5" height="0.5" border-color="white"
-                font-color="black" active-color="orange" hover-color="orange" focus-color="orange"
-                background-color="orange" bevel="true" @click="confirm">
-                <a-text color="#000" :value="confirmButton['label']" position="0 0.1 0.2" align="center"></a-text>
+              <a-gui-button v-if="confirmButton" ref="confirmBtnRef" width="1.5" height="0.5" gap="0.0"
+                border-color="white" font-color="black" active-color="orange" hover-color="orange" focus-color="orange"
+                background-color="orange" bevel="true" @click="confirm" :value="confirmButton['label']"
+                font-family="fonts/Alibaba-PuHuiTi-Heavy.ttf" font-size="0.4">
               </a-gui-button>
             </a-entity>
           </a-entity>
