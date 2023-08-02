@@ -51,10 +51,12 @@ onMounted(async () => {
   }
 
   const sceneEl = sceneTargetRef.value
+  if (sceneEl) {
   sceneEl.addEventListener('loaded', () => {
     arSystem = sceneEl.systems['mindar-image-system']
     arSystem.start()
   })
+  }
 
   if (AFRAME.components['model-handler'] === undefined) {
     AFRAME.registerComponent("model-handler", {
@@ -95,7 +97,7 @@ onMounted(async () => {
             arSystem.pause(true)
             setTimeout(() => {
               arSystem.ui.hideScanning()
-            }, 0);
+            }, 0)
           }
         })
       }
@@ -105,8 +107,9 @@ onMounted(async () => {
 
 onUnmounted(() => {
   isVisible = false
-  arSystem.stop()
   arSystem.ui.hideScanning()
+  arSystem.ui.hideLoading()
+  arSystem.stop()
   delete AFRAME.components['model-handler']
   delete AFRAME.components['target-handler']
 })
