@@ -21129,7 +21129,9 @@ _startVideo: function() {
       video: {
           facingMode: "environment"
       }
-  }).then(async () => {
+  }).then(async n => {
+      const videoTracks = n.getVideoTracks()?.[0] ?? null;
+      await this._sleep(1000), videoTracks?.stop?.(), await this._sleep(100);
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: !1,
         video: {
