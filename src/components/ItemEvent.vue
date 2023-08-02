@@ -24,7 +24,8 @@ const imageURL = `${import.meta.env.VITE_BASE_URL}/wegalaxy/public/images`;
         <div class="item-title">{{ event.title }}</div>
         <div class="item-description">{{ event.description }}</div>
       </div>
-      <div class="d-flex">
+      <div class="d-flex align-center">
+        <div class="item-datetime">{{ $d(event.startUnixTime * 1000, 'short') }} - {{ $d(event.endUnixTime * 1000, 'short') }}</div>
         <v-spacer></v-spacer>
         <v-img class="item-btn v-col-auto" :style="{
           backgroundImage: `url(${imageURL}/btn_bg_round.png)`,
@@ -69,6 +70,12 @@ const imageURL = `${import.meta.env.VITE_BASE_URL}/wegalaxy/public/images`;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.item-datetime {
+  font-size: 9px;
+  font-weight: 400;
+  color: #757a7c;
 }
 
 .item-btn {
