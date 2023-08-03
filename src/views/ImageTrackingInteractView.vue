@@ -174,7 +174,8 @@ const ok = () => {
         <a-entity position="0 -1 -5">
           <a-entity v-if="popUp" model-handler
             :scale="`${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']}`"
-            :gltf-model="popUp['pop_up_content']" gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5">
+            :gltf-model="popUp['pop_up_content']" gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5;"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear;">
           </a-entity>
           <a-entity position="0 -0.5 0" rotation="0 0 0" scale="1 1 1">
             <a-entity position="0 -0.75 0" cursor="rayOrigin: mouse;" raycaster="objects: .clickable;">
