@@ -127,9 +127,11 @@ const confirm = async () => {
   const url = confirmButton['url']
   const inputJson = confirmButton['input_json']
   try {
+    if (!overlay.value) {
     overlay.value = true
     let data = await getResult(url, id, longitude, latitude, inputJson)
     dialogText.value = data
+    }
   } catch (err) {
     console.log(err)
     dialogText.value = err
