@@ -18,7 +18,7 @@ const sceneInteractRef = ref(null)
 const confirmBtnRef = ref(null)
 const closeBtnRef = ref(null)
 const dialog = ref(false)
-const dialogText = ref(false)
+const dialogText = ref('')
 
 var arSystem
 var isNeedLocation = false
@@ -52,10 +52,10 @@ onMounted(async () => {
 
   const sceneEl = sceneTargetRef.value
   if (sceneEl) {
-  sceneEl.addEventListener('loaded', () => {
-    arSystem = sceneEl.systems['mindar-image-system']
-    arSystem.start()
-  })
+    sceneEl.addEventListener('loaded', () => {
+      arSystem = sceneEl.systems['mindar-image-system']
+      arSystem.start()
+    })
   }
 
   if (AFRAME.components['model-handler'] === undefined) {
@@ -115,29 +115,30 @@ onUnmounted(() => {
 })
 
 const confirm = async () => {
-  const interactScene = sceneInteractRef.value
-  interactScene.setAttribute('visible', false)
-
-  const confirmBtn = confirmBtnRef.value
-  confirmBtn.classList.remove('clickable')
-
-  const closeBtn = closeBtnRef.value
-  closeBtn.classList.remove('clickable')
-
-  const url = confirmButton['url']
-  const inputJson = confirmButton['input_json']
-  try {
-    if (!overlay.value) {
+  if (!overlay.value) {
     overlay.value = true
-    let data = await getResult(url, id, longitude, latitude, inputJson)
-    dialogText.value = data
+
+    const interactScene = sceneInteractRef.value
+    interactScene.setAttribute('visible', false)
+
+    const confirmBtn = confirmBtnRef.value
+    confirmBtn.classList.remove('clickable')
+
+    const closeBtn = closeBtnRef.value
+    closeBtn.classList.remove('clickable')
+
+    const url = confirmButton['url']
+    const inputJson = confirmButton['input_json']
+    try {
+      let data = await getResult(url, id, longitude, latitude, inputJson)
+      dialogText.value = data
+    } catch (err) {
+      console.log(err)
+      dialogText.value = err
+    } finally {
+      overlay.value = false
+      dialog.value = true
     }
-  } catch (err) {
-    console.log(err)
-    dialogText.value = err
-  } finally {
-    overlay.value = false
-    dialog.value = true
   }
 }
 
