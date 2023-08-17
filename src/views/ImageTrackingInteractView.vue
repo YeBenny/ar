@@ -195,7 +195,7 @@ const ok = () => {
         </a-entity>
       </a-scene>
       <a-scene v-if="target" ref="sceneTargetRef"
-        :mindar-image="`imageTargetSrc: ${target['target_model']}; autoStart: false; filterMinCF: 0.00001; filterBeta: 0.0001; warmupTolerance: 10; missTolerance: 30;`"
+        :mindar-image="`imageTargetSrc: ${target['target_model']}; autoStart: false; filterMinCF: 0.00001; filterBeta: 0.1; warmupTolerance: 10; missTolerance: 30;`"
         color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
         <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
