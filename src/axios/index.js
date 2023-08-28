@@ -56,6 +56,12 @@ const getAppHeaders = () => {
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
   }
+  if (config.extraHeaderInRequest) {
+    let extraHeaderInRequest = JSON.parse(config.extraHeaderInRequest)
+    for (const [key, value] of Object.entries(extraHeaderInRequest)) {
+      headers[key] = value
+    }
+  }
   return headers
 }
 
