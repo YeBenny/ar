@@ -27,7 +27,26 @@ var isVisible = false
 async function getData() {
   try {
     overlay.value = true
-    const event = await getEventDetail(id)
+    // const event = await getEventDetail(id)
+    const event = {
+      "id": "ab92d4a1-0a6a-4ce8-89d7-ffd3fec55ce5",
+      "appId": "3upckB2GoyOgpG9RpKJsK3xOPCH6cy7CXCd45yQWc",
+      "title": "AR小游戏",
+      "userId": "784b6300-3a6f-4cff-9532-62823c5a6aa4",
+      "description": "扫Logo得星尘",
+      "image": "https://photos-1257653870.cos.ap-guangzhou.myqcloud.com/wegalaxy/ar/1689744551211.png",
+      "startUnixTime": 1688140800,
+      "endUnixTime": 1690819200,
+      "locationRestriction": false,
+      "centerLatitude": 0,
+      "centerLongitude": 0,
+      "radiusInMeters": 0,
+      "templateId": "8e7d4dbf-1f9f-11ee-833e-0242ac110002",
+      "templateInstance": "{\"target\":{\"target_description\":\"扫描Logo\",\"target_model\":\"https://wegalaxy-1259029301.cos.ap-guangzhou.myqcloud.com/ar/targets_kfc.mind\"},\"pop_up\":{\"pop_up_content\":\"https://wegalaxy-1259029301.cos.ap-guangzhou.myqcloud.com/ar/3dmodel/it-box/it-box.glb\",\"pop_up_content_size\":\"1.0\",\"pop_up_type\":\"3d_model\"},\"confirm_button\":{\"label\":\"Click\",\"url\":\"https://wegalaxy-sit.test.webank.com/wegalaxy/v1/wegalaxy-gamicore/ar/scan-and-show/issue-mdot\",\"input_json\":\"{\\\"amount\\\":1.0}\"}}",
+      "status": 1,
+      "version": 10
+    }
+
     const templateInstance = JSON.parse(event.templateInstance);
     isNeedLocation = event.locationRestriction;
     target.value = templateInstance['target']
@@ -55,6 +74,12 @@ onMounted(async () => {
     sceneEl.addEventListener('loaded', () => {
       arSystem = sceneEl.systems['mindar-image-system']
       arSystem.start()
+      var t = 0
+      setInterval(() => {
+        const src = `gif/IMG_7402_${t % 110}.jpg`
+        arSystem.updateFrame(src)
+        t++
+      }, 33);
     })
   }
 
@@ -195,7 +220,7 @@ const ok = () => {
         </a-entity>
       </a-scene>
       <a-scene v-if="target" ref="sceneTargetRef"
-        :mindar-image="`imageTargetSrc: ${target['target_model']}; autoStart: false; filterMinCF: 0.0002; filterBeta: 0.0002; warmupTolerance: 10; missTolerance: 30;`"
+        :mindar-image="`imageTargetSrc: ${target['target_model']}; autoStart: false; useCamera: false; filterMinCF: 0.0002; filterBeta: 0.0002; warmupTolerance: 10; missTolerance: 30;`"
         color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
         <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
