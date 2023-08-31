@@ -199,7 +199,7 @@ const ok = () => {
         color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
         <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
-          raycaster="far: 10000; objects: .clickable"></a-camera>
+          raycaster="far: 10000; objects: [gui-interactable]"></a-camera>
         <a-entity target-handler mindar-image-target="targetIndex: 0">
           <a-entity v-if="popUp" model-handler
             :scale="`${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']}`"
@@ -209,8 +209,8 @@ const ok = () => {
           <a-entity v-if="popUp" position="0 0 0">
             <a-entity position="0 -0.75 0" rotation="0 0 0" scale="0.5 0.5 0.5">
               <a-gui-button v-if="confirmButton" ref="confirmBtnRef" class="clickable" width="1.5" height="0.5" gap="0.0"
-                border-color="white" font-color="black" active-color="orange" hover-color="orange" focus-color="orange"
-                background-color="orange" bevel="true" @click="confirm" :value="confirmButton['label']" font-size="0.4">
+                border-color="white" font-color="black" active-color="#FF8000" hover-color="#FF8000" focus-color="#FF8000"
+                background-color="#FF8000" bevel="true" @click="confirm" :value="confirmButton['label']" font-size="0.4">
                 <a-text color="#000" :value="confirmButton['label']" position="0 0.05 0.2" align="center"></a-text>
               </a-gui-button>
             </a-entity>
