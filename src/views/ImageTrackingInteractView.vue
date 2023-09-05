@@ -60,6 +60,12 @@ async function getData() {
 }
 
 onMounted(async () => {
+  window['showImg'] = (base64) => {
+    if (arSystem !== null) {
+      arSystem.updateFrame(base64)
+    }
+  }
+
   await getData()
 
   if (isNeedLocation && navigator.geolocation) {
@@ -74,12 +80,6 @@ onMounted(async () => {
     sceneEl.addEventListener('loaded', () => {
       arSystem = sceneEl.systems['mindar-image-system']
       arSystem.start()
-      var t = 0
-      setInterval(() => {
-        const src = `gif/IMG_7402_${t % 110}.jpg`
-        arSystem.updateFrame(src)
-        t++
-      }, 33);
     })
   }
 
