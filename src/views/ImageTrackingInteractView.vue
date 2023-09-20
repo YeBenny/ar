@@ -29,26 +29,28 @@ async function getData() {
     overlay.value = true
     // const event = await getEventDetail(id)
     const event = {
-      "id": "ab92d4a1-0a6a-4ce8-89d7-ffd3fec55ce5",
-      "appId": "3upckB2GoyOgpG9RpKJsK3xOPCH6cy7CXCd45yQWc",
-      "title": "AR小游戏",
-      "userId": "784b6300-3a6f-4cff-9532-62823c5a6aa4",
-      "description": "扫Logo得星尘",
-      "image": "https://photos-1257653870.cos.ap-guangzhou.myqcloud.com/wegalaxy/ar/1689744551211.png",
-      "startUnixTime": 1688140800,
-      "endUnixTime": 1690819200,
-      "locationRestriction": false,
-      "centerLatitude": 0,
-      "centerLongitude": 0,
-      "radiusInMeters": 0,
-      "templateId": "8e7d4dbf-1f9f-11ee-833e-0242ac110002",
-      "templateInstance": "{\"target\":{\"target_description\":\"扫描Logo\",\"target_model\":\"https://wegalaxy-1259029301.cos.ap-guangzhou.myqcloud.com/ar/targets_kfc.mind\"},\"pop_up\":{\"pop_up_content\":\"https://wegalaxy-1259029301.cos.ap-guangzhou.myqcloud.com/ar/3dmodel/it-box/it-box.glb\",\"pop_up_content_size\":\"1.0\",\"pop_up_type\":\"3d_model\"},\"confirm_button\":{\"label\":\"Click\",\"url\":\"https://wegalaxy-sit.test.webank.com/wegalaxy/v1/wegalaxy-gamicore/ar/scan-and-show/issue-mdot\",\"input_json\":\"{\\\"amount\\\":1.0}\"}}",
-      "status": 1,
-      "version": 10
+      id: 'ab92d4a1-0a6a-4ce8-89d7-ffd3fec55ce5',
+      appId: '3upckB2GoyOgpG9RpKJsK3xOPCH6cy7CXCd45yQWc',
+      title: 'AR小游戏',
+      userId: '784b6300-3a6f-4cff-9532-62823c5a6aa4',
+      description: '扫Logo得星尘',
+      image:
+        'https://photos-1257653870.cos.ap-guangzhou.myqcloud.com/wegalaxy/ar/1689744551211.png',
+      startUnixTime: 1688140800,
+      endUnixTime: 1690819200,
+      locationRestriction: false,
+      centerLatitude: 0,
+      centerLongitude: 0,
+      radiusInMeters: 0,
+      templateId: '8e7d4dbf-1f9f-11ee-833e-0242ac110002',
+      templateInstance:
+        '{"target":{"target_description":"扫描Logo","target_model":"https://wegalaxy-1259029301.cos.ap-guangzhou.myqcloud.com/ar/targets_kfc.mind"},"pop_up":{"pop_up_content":"https://wegalaxy-1259029301.cos.ap-guangzhou.myqcloud.com/ar/3dmodel/it-box/it-box.glb","pop_up_content_size":"1.0","pop_up_type":"3d_model"},"confirm_button":{"label":"Click","url":"https://wegalaxy-sit.test.webank.com/wegalaxy/v1/wegalaxy-gamicore/ar/scan-and-show/issue-mdot","input_json":"{\\"amount\\":1.0}"}}',
+      status: 1,
+      version: 10
     }
 
-    const templateInstance = JSON.parse(event.templateInstance);
-    isNeedLocation = event.locationRestriction;
+    const templateInstance = JSON.parse(event.templateInstance)
+    isNeedLocation = event.locationRestriction
     target.value = templateInstance['target']
     popUp.value = templateInstance['pop_up']
     confirmButton = templateInstance['confirm_button']
@@ -84,7 +86,7 @@ onMounted(async () => {
   }
 
   if (AFRAME.components['model-handler'] === undefined) {
-    AFRAME.registerComponent("model-handler", {
+    AFRAME.registerComponent('model-handler', {
       init: function () {
         this.el.addEventListener('model-loaded', () => {
           const animations = this.el.components['gltf-model'].model.animations
@@ -105,13 +107,10 @@ onMounted(async () => {
         this.el.addEventListener('targetFound', () => {
           // if (!isVisible) {
           //   isVisible = true
-
           //   const interactScene = sceneInteractRef.value
           //   interactScene.setAttribute('visible', true)
-
           //   const confirmBtn = confirmBtnRef.value
           //   confirmBtn.classList.add('clickable')
-
           //   const closeBtn = closeBtnRef.value
           //   closeBtn.classList.add('clickable')
           // }
@@ -193,50 +192,122 @@ const ok = () => {
 <template>
   <v-layout>
     <v-main class="container">
-      <a-scene ref="sceneInteractRef" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: false;"
+      <a-scene
+        ref="sceneInteractRef"
+        vr-mode-ui="enabled: false;"
+        renderer="logarithmicDepthBuffer: false;"
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-        device-orientation-permission-ui="enabled: false" visible="false" gesture-detector>
+        device-orientation-permission-ui="enabled: false"
+        visible="false"
+        gesture-detector
+      >
         <a-entity camera emitevents="true"></a-entity>
         <a-entity position="0 -1 -5">
-          <a-entity v-if="popUp" model-handler-1
+          <a-entity
+            v-if="popUp"
+            model-handler-1
             :scale="`${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']}`"
-            :gltf-model="popUp['pop_up_content']" gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5;"
-            animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear;">
+            :gltf-model="popUp['pop_up_content']"
+            gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5;"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear;"
+          >
           </a-entity>
           <a-entity position="0 -0.5 0" rotation="0 0 0" scale="1 1 1">
-            <a-entity position="0 -0.75 0" cursor="rayOrigin: mouse;" raycaster="objects: .clickable;">
-              <a-gui-button v-if="confirmButton" ref="confirmBtnRef" width="1.5" height="0.5" gap="0.0"
-                border-color="white" font-color="black" active-color="orange" hover-color="orange" focus-color="orange"
-                background-color="orange" bevel="true" @click="confirm" :value="confirmButton['label']" font-size="0.4">
-                <a-text color="#000" :value="confirmButton['label']" position="0 0.1 0.2" align="center"></a-text>
+            <a-entity
+              position="0 -0.75 0"
+              cursor="rayOrigin: mouse;"
+              raycaster="objects: .clickable;"
+            >
+              <a-gui-button
+                v-if="confirmButton"
+                ref="confirmBtnRef"
+                width="1.5"
+                height="0.5"
+                gap="0.0"
+                border-color="white"
+                font-color="black"
+                active-color="orange"
+                hover-color="orange"
+                focus-color="orange"
+                background-color="orange"
+                bevel="true"
+                @click="confirm"
+                :value="confirmButton['label']"
+                font-size="0.4"
+              >
+                <a-text
+                  color="#000"
+                  :value="confirmButton['label']"
+                  position="0 0.1 0.2"
+                  align="center"
+                ></a-text>
               </a-gui-button>
             </a-entity>
           </a-entity>
           <a-entity position="1.5 2.5 0" rotation="0 0 0" scale="1 1 1">
             <a-entity cursor="rayOrigin: mouse;" raycaster="objects: .clickable;">
-              <a-image ref="closeBtnRef" width="0.5" height="0.5" src="./images/btn_close.png" @click="close"></a-image>
+              <a-image
+                ref="closeBtnRef"
+                width="0.5"
+                height="0.5"
+                src="./images/btn_close.png"
+                @click="close"
+              ></a-image>
             </a-entity>
           </a-entity>
         </a-entity>
       </a-scene>
-      <a-scene v-if="target" ref="sceneTargetRef"
+      <a-scene
+        v-if="target"
+        ref="sceneTargetRef"
         :mindar-image="`imageTargetSrc: ${target['target_model']}; autoStart: false; useCamera: false; filterMinCF: 0.0002; filterBeta: 0.0002; warmupTolerance: 10; missTolerance: 30;`"
-        color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
-        device-orientation-permission-ui="enabled: false">
-        <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
-          raycaster="far: 10000; objects: [gui-interactable]"></a-camera>
+        color-space="sRGB"
+        renderer="colorManagement: true, physicallyCorrectLights"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false"
+      >
+        <a-camera
+          position="0 0 0"
+          look-controls="enabled: false"
+          cursor="fuse: false; rayOrigin: mouse;"
+          raycaster="far: 10000; objects: [gui-interactable]"
+        ></a-camera>
         <a-entity target-handler mindar-image-target="targetIndex: 0">
-          <a-entity v-if="popUp" model-handler
+          <a-entity
+            v-if="popUp"
+            model-handler
             :scale="`${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']} ${popUp['pop_up_content_size']}`"
-            :gltf-model="popUp['pop_up_content']" rotation="0 0 0"
-            gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5;">
+            :gltf-model="popUp['pop_up_content']"
+            rotation="0 0 0"
+            gesture-handler="isVisible: true; minScale: 0.5; maxScale: 1.5;"
+          >
           </a-entity>
           <a-entity v-if="popUp" position="0 0 0">
             <a-entity position="0 -0.75 0" rotation="0 0 0" scale="0.5 0.5 0.5">
-              <a-gui-button v-if="confirmButton" ref="confirmBtnRef" class="clickable" width="1.5" height="0.5" gap="0.0"
-                border-color="white" font-color="black" active-color="#FF8000" hover-color="#FF8000" focus-color="#FF8000"
-                background-color="#FF8000" bevel="true" @click="confirm" :value="confirmButton['label']" font-size="0.4">
-                <a-text color="#000" :value="confirmButton['label']" position="0 0.05 0.2" align="center"></a-text>
+              <a-gui-button
+                v-if="confirmButton"
+                ref="confirmBtnRef"
+                class="clickable"
+                width="1.5"
+                height="0.5"
+                gap="0.0"
+                border-color="white"
+                font-color="black"
+                active-color="#FF8000"
+                hover-color="#FF8000"
+                focus-color="#FF8000"
+                background-color="#FF8000"
+                bevel="true"
+                @click="confirm"
+                :value="confirmButton['label']"
+                font-size="0.4"
+              >
+                <a-text
+                  color="#000"
+                  :value="confirmButton['label']"
+                  position="0 0.05 0.2"
+                  align="center"
+                ></a-text>
               </a-gui-button>
             </a-entity>
           </a-entity>
