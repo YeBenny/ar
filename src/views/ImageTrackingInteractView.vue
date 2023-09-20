@@ -187,10 +187,42 @@ const ok = () => {
   arSystem.unpause()
   arSystem.ui.showScanning()
 }
+
+const back = () => {
+  'object' != typeof ue || 'object' != typeof ue.interface
+    ? ('object' != typeof ue && (ue = {}),
+      (ue.interface = {}),
+      (ue.interface.broadcast = function (e, t) {
+        if ('string' == typeof e) {
+          var o = [e, '']
+          void 0 !== t && (o[1] = t)
+          var n = encodeURIComponent(JSON.stringify(o))
+          'object' == typeof history && 'function' == typeof history.pushState
+            ? (history.pushState({}, '', '#' + n),
+              history.pushState({}, '', '#' + encodeURIComponent('[]')))
+            : ((document.location.hash = n), (document.location.hash = encodeURIComponent('[]')))
+        }
+      }))
+    : (function (e) {
+        ;(ue.interface = {}),
+          (ue.interface.broadcast = function (t, o) {
+            'string' == typeof t &&
+              (void 0 !== o ? e.broadcast(t, JSON.stringify(o)) : e.broadcast(t, ''))
+          })
+      })(ue.interface),
+    (window.ue4 = ue.interface.broadcast)
+  window.ue = ue
+  ue.obj.close()
+}
 </script>
 
 <template>
   <v-layout>
+    <v-app-bar fixed>
+      <template v-slot:prepend>
+        <v-btn icon="mdi-arrow-left" @click="back"></v-btn>
+      </template>
+    </v-app-bar>
     <v-main class="container">
       <a-scene
         ref="sceneInteractRef"
