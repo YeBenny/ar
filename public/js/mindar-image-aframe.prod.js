@@ -57974,14 +57974,7 @@ return a / b;`,
           this.video.style.zIndex = '-2'
           this.container.appendChild(this.video)
           this.canvas = document.createElement('canvas')
-          // this.canvas.style.display = 'none'
-          this.canvas.style.position = 'absolute'
-          this.canvas.style.top = '0px'
-          this.canvas.style.left = '0px'
-          this.canvas.style.width = '100px'
-          this.canvas.style.height = '200px'
-          this.canvas.style.zIndex = '99999'
-          this.container.appendChild(this.canvas)
+          this.canvas.style.display = 'none'
 
           const stream = this.canvas.captureStream(30)
 
