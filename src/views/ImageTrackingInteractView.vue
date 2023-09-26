@@ -62,11 +62,20 @@ async function getData() {
 }
 
 onMounted(async () => {
-  window['showImg'] = (base64) => {
+  // window['showImg'] = (base64) => {
+  //   if (arSystem !== null) {
+  //     arSystem.updateFrame(base64)
+  //   }
+  // }
+
+  let t = 0
+  setInterval(() => {
+    let src = `gif/IMG_7402_${t % 110}.jpg`
     if (arSystem !== null) {
-      arSystem.updateFrame(base64)
+      arSystem.updateFrame(src)
     }
-  }
+    t++
+  }, 1000 / 30)
 
   await getData()
 
